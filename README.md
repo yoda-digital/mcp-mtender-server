@@ -3,6 +3,12 @@
 An MCP (Model Context Protocol) server for accessing Moldova's public procurement data through the MTender API.
 
 [![GitHub Repository](https://img.shields.io/badge/GitHub-Repository-blue.svg)](https://github.com/yoda-digital/mcp-mtender-server)
+[![Version](https://img.shields.io/badge/version-0.1.0-brightgreen.svg)](https://github.com/yoda-digital/mcp-mtender-server)
+[![License](https://img.shields.io/badge/license-Custom-orange.svg)](https://github.com/yoda-digital/mcp-mtender-server/blob/main/LICENCE.md)
+[![Node.js](https://img.shields.io/badge/Node.js-v20-green.svg)](https://nodejs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-v5.3.3-blue.svg)](https://www.typescriptlang.org/)
+[![MCP SDK](https://img.shields.io/badge/MCP_SDK-v0.6.0-purple.svg)](https://github.com/anthropics/anthropic-sdk-typescript)
+[![Status](https://img.shields.io/badge/Status-Active-success.svg)](https://github.com/yoda-digital/mcp-mtender-server)
 
 ## Overview
 
