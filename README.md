@@ -2,6 +2,8 @@
 
 An MCP (Model Context Protocol) server for accessing Moldova's public procurement data through the MTender API.
 
+[![GitHub Repository](https://img.shields.io/badge/GitHub-Repository-blue.svg)](https://github.com/yoda-digital/mcp-mtender-server)
+
 ## Overview
 
 This server provides access to the [MTender](https://public.mtender.gov.md/) public procurement system of Moldova, which implements the [Open Contracting Data Standard (OCDS)](https://standard.open-contracting.org/). It allows AI assistants to search for tenders, access tender details, budget information, and funding sources.
@@ -71,6 +73,19 @@ The server provides a complete interface to all data available through the MTend
 - **analyze_tender**: Analyze a tender and extract key information according to OCDS schema
 
 ## Installation
+
+### From GitHub
+
+You can clone the repository directly from GitHub:
+
+```bash
+git clone https://github.com/yoda-digital/mcp-mtender-server.git
+cd mcp-mtender-server
+npm install
+npm run build
+```
+
+### Manual Installation
 
 1. Clone this repository
 2. Install dependencies:
@@ -168,6 +183,15 @@ The modular structure makes it easy to add new features:
 3. For API client changes, modify the `api/mtender-client.ts` file
 4. For logging improvements, update the `utils/logger.ts` file
 
+### Contributing
+
+Contributions to the MTender OCDS Server are welcome! You can contribute by:
+
+1. Forking the [GitHub repository](https://github.com/yoda-digital/mcp-mtender-server)
+2. Creating a feature branch
+3. Making your changes
+4. Submitting a pull request
+
 ### Logging
 
 The server includes a comprehensive logging system that writes to files in the `logs/` directory. This is useful for debugging and monitoring the server's operation.
@@ -224,4 +248,11 @@ Here are some example queries you can use with Claude once the server is connect
 
 ## License
 
-MIT
+Copyright 2025 Ion Nalyk Calmis (Yoda.Digital)
+
+All rights reserved.
+
+Permission is granted to use and distribute this software for personal and non-commercial purposes only.
+Modification, redistribution, and commercial use are strictly prohibited without explicit permission from the author.
+
+For more details, see the [LICENCE.md](LICENCE.md) file.
