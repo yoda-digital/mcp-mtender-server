@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "mtender": {
+      "command": "node",
+      "args": ["/path/to/mtender-server/build/index.js"],
+      "disabled": false,
+      "alwaysAllow": []
+    }
+  }
+}
