@@ -5,6 +5,12 @@
       "args": ["/path/to/mtender-server/build/index.js"],
       "disabled": false,
       "alwaysAllow": []
+    },
+    "mtender-docker": {
+      "command": "docker",
+      "args": ["run", "--rm", "-i", "-v", "/path/to/logs:/app/logs", "mtender-mcp-server"],
+      "disabled": false,
+      "alwaysAllow": []
     }
   }
 }

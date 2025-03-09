@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  mtender-mcp-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mtender-mcp-server
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - DEBUG_LEVEL=info
+    volumes:
+      - ./logs:/app/logs
+    # If you need to expose ports for debugging or direct access
+    # ports:
+    #   - "3000:3000"

@@ -9,6 +9,7 @@ An MCP (Model Context Protocol) server for accessing Moldova's public procuremen
 [![TypeScript](https://img.shields.io/badge/TypeScript-v5.3.3-blue.svg)](https://www.typescriptlang.org/)
 [![MCP SDK](https://img.shields.io/badge/MCP_SDK-v0.6.0-purple.svg)](https://github.com/anthropics/anthropic-sdk-typescript)
 [![Status](https://img.shields.io/badge/Status-Active-success.svg)](https://github.com/yoda-digital/mcp-mtender-server)
+[![Docker](https://img.shields.io/badge/Docker-Ready-blue.svg)](https://www.docker.com/)
 
 ## Overview
 
@@ -31,7 +32,10 @@ mtender-server/
 │   └── utils/
 │       └── logger.ts             # Logging utility
 ├── build/                        # Compiled JavaScript
-└── logs/                         # Log files
+├── logs/                         # Log files
+├── Dockerfile                    # Docker configuration
+├── docker-compose.yml            # Docker Compose configuration
+└── .dockerignore                 # Docker ignore file
 ```
 
 This modular structure makes the code easier to maintain, understand, and extend.
@@ -108,6 +112,56 @@ npm run build
    ```
    npm link
    ```
+
+## Docker Setup
+
+The MTender OCDS Server can be run in a Docker container, which provides an isolated and consistent environment.
+
+### Building the Docker Image
+
+To build the Docker image:
+
+```bash
+cd mtender-server
+docker build -t mtender-mcp-server .
+```
+
+### Running with Docker
+
+To run the server using Docker:
+
+```bash
+docker run -v $(pwd)/logs:/app/logs mtender-mcp-server
+```
+
+This command mounts the local logs directory to the container's logs directory, ensuring that logs are persisted on the host machine.
+
+### Using Docker Compose
+
+For a more convenient setup, you can use Docker Compose:
+
+```bash
+cd mtender-server
+docker-compose up -d
+```
+
+This will build the image if it doesn't exist and start the container in detached mode.
+
+To stop the container:
+
+```bash
+docker-compose down
+```
+
+### Docker Configuration
+
+The Docker setup includes:
+
+- Multi-stage build for smaller image size
+- Alpine-based Node.js image for minimal footprint
+- Production-optimized dependencies
+- Volume mounting for logs persistence
+- Environment variable configuration
 
 ## Usage
 
