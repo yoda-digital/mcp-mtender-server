@@ -61,6 +61,8 @@ This MCP server provides comprehensive access to the MTender API, which implemen
 
 The server provides a complete interface to all data available through the MTender API, making it a full-featured OCDS client within the constraints of the underlying API.
 
+> **Note on Partial Support**: The Implementation Section and Transactions are marked as partial because the MTender system in Moldova currently does not include data for the implementation stage of the contracting process. The MTender API only covers four stages: planning, tender, award, and contract, but does not include contract implementation data. This is a limitation of the underlying API, not of this MCP server.
+
 ## Features
 
 ### Resources
