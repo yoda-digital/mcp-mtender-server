@@ -1,4 +1,4 @@
-# MTender OCDS Server
+# MTender MCP OCDS Server
 
 An MCP (Model Context Protocol) server for accessing Moldova's public procurement data through the MTender API.
 
