@@ -230,7 +230,7 @@ A configuration template file (`mcp-config-template.json`) is provided to help y
 
 #### For VSCode with Cline:
 
-1. Edit `/home/nalyk/.config/Code/User/globalStorage/rooveterinaryinc.roo-cline/settings/cline_mcp_settings.json` (on Linux) or the equivalent path on your operating system.
+1. Edit `/home/user/.config/Code/User/globalStorage/rooveterinaryinc.roo-cline/settings/cline_mcp_settings.json` (just a refference example,example on Linux) or the equivalent path on your operating system.
 2. Add the configuration from the template to the `mcpServers` object in the config file (replace `/path/to/mtender-server` with the actual path to your server).
 3. Restart VSCode.
 
