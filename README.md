@@ -3,7 +3,7 @@
 An MCP (Model Context Protocol) server for accessing Moldova's public procurement data through the MTender API.
 
 [![GitHub Repository](https://img.shields.io/badge/GitHub-Repository-blue.svg)](https://github.com/yoda-digital/mcp-mtender-server)
-[![Version](https://img.shields.io/badge/version-0.1.0-brightgreen.svg)](https://github.com/yoda-digital/mcp-mtender-server)
+[![Version](https://img.shields.io/badge/version-0.2.0-brightgreen.svg)](https://github.com/yoda-digital/mcp-mtender-server)
 [![License](https://img.shields.io/badge/license-Custom-orange.svg)](https://github.com/yoda-digital/mcp-mtender-server/blob/main/LICENCE.md)
 [![Node.js](https://img.shields.io/badge/Node.js-v20-green.svg)](https://nodejs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-v5.3.3-blue.svg)](https://www.typescriptlang.org/)
@@ -13,7 +13,7 @@ An MCP (Model Context Protocol) server for accessing Moldova's public procuremen
 
 ## Overview
 
-This server provides access to the [MTender](https://public.mtender.gov.md/) public procurement system of Moldova, which implements the [Open Contracting Data Standard (OCDS)](https://standard.open-contracting.org/). It allows AI assistants to search for tenders, access tender details, budget information, and funding sources.
+This server provides access to the [MTender](https://public.mtender.gov.md/) public procurement system of Moldova, which implements the [Open Contracting Data Standard (OCDS)](https://standard.open-contracting.org/). It allows AI assistants to search for tenders, access tender details, budget information, funding sources, and analyze tender documents.
 
 ### Code Structure
 
@@ -34,8 +34,8 @@ mtender-server/
 ├── build/                        # Compiled JavaScript
 ├── logs/                         # Log files
 ├── Dockerfile                    # Docker configuration
-├── docker-compose.yml            # Docker Compose configuration
-└── .dockerignore                 # Docker ignore file
+├── docker-compose.yml           # Docker Compose configuration
+└── .dockerignore                # Docker ignore file
 ```
 
 This modular structure makes the code easier to maintain, understand, and extend.
@@ -57,7 +57,7 @@ This MCP server provides comprehensive access to the MTender API, which implemen
 | **Items** | ✅ Full | Included in tender, award, contract sections |
 | **Values** | ✅ Full | Monetary values with currency information |
 | **Periods** | ✅ Full | Date ranges for various process stages |
-| **Documents** | ✅ Full | Document references included in responses |
+| **Documents** | ✅ Full | Document references and content extraction |
 | **Milestones** | ✅ Full | Process milestones included in responses |
 | **Transactions** | ⚠️ Partial | Limited by MTender API capabilities |
 | **Amendments** | ✅ Full | Changes to processes are tracked |
@@ -83,6 +83,7 @@ The server provides a complete interface to all data available through the MTend
 - **get_budget**: Get budget information for a specific tender with format options
 - **get_funding_source**: Get funding source information for a specific tender with format options
 - **analyze_tender**: Analyze a tender and extract key information according to OCDS schema
+- **fetch_tender_document**: Fetch and analyze tender documents (PDF, DOC, DOCX) for AI/LLM analysis
 
 ## Installation
 
@@ -205,6 +206,7 @@ This script shows how to:
 - List available tools
 - Search for tenders
 - Get tender details
+- Fetch and analyze tender documents
 
 #### Interactive Testing with MCP Inspector
 
@@ -274,6 +276,7 @@ Here are some example queries you can use with Claude once the server is connect
 - "Show me a summary of tender ocds-b3wdp1-MD-1613996912600"
 - "Analyze tender ocds-b3wdp1-MD-1613996912600 and focus on the awards and contracts sections"
 - "Find tenders with a limit of 10 results"
+- "Analyze the tender documents for ocds-b3wdp1-MD-1613996912600"
 
 ## API Reference
 
@@ -307,6 +310,9 @@ Here are some example queries you can use with Claude once the server is connect
 #### analyze_tender
 - `ocid` (required): Open Contracting ID (OCID) of the tender
 - `sections` (optional): OCDS sections to analyze (array of: "planning", "tender", "awards", "contracts", "implementation")
+
+#### fetch_tender_document
+- `documentUrl` (required): MTender storage URL of the document (must match pattern: ^https://storage\.mtender\.gov\.md/get/[\w-]+-\d+$)
 
 ## License
 

@@ -1,7 +1,7 @@
 {
-  "name": "MTender OCDS Server",
-  "version": "0.1.0",
-  "description": "MCP server for accessing Moldova&#39;s public procurement data through the MTender API",
+  "name": "MTender MCP OCDS Server",
+  "version": "0.2.0",
+  "description": "MCP server for accessing Moldova's public procurement data through the MTender API",
   "private": true,
   "type": "module",
   "bin": {
@@ -18,7 +18,9 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "0.6.0",
-    "axios": "^1.8.2"
+    "axios": "^1.8.2",
+    "mammoth": "^1.9.0",
+    "pdf-parse": "^1.1.1"
   },
   "devDependencies": {
     "@types/node": "^20.11.24",

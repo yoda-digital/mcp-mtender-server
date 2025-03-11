@@ -1,5 +1,14 @@
 import { logger } from "../utils/logger.js";
 
+export async function streamToBuffer(stream: any): Promise<Buffer> {
+  const chunks: Buffer[] = [];
+  return new Promise((resolve, reject) => {
+    stream.on('data', (chunk: Buffer) => chunks.push(chunk));
+    stream.on('error', reject);
+    stream.on('end', () => resolve(Buffer.concat(chunks)));
+  });
+}
+
 // Track active requests
 let activeRequestsCount = 0;
 

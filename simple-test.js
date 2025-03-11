@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * A simple test script for the MTender OCDS Server
+ * A simple test script for the MTender MCP OCDS Server
  */
 
 import axios from 'axios';
@@ -61,6 +61,17 @@ async function testMTenderAPI() {
       }
     } catch (error) {
       console.log(`Error getting funding source: ${error.message}`);
+    }
+
+    // Test 5: Fetch and analyze tender document
+    const documentUrl = "https://storage.mtender.gov.md/get/8e03c261-6f62-4e0f-87ea-2882afdf7f54-1682585742785";
+    console.log(`\nTest 5: Fetch and analyze tender document from ${documentUrl}`);
+    try {
+      const documentResponse = await axios.get(documentUrl, { responseType: 'arraybuffer' });
+      console.log("Document fetched successfully!");
+      console.log(`Content-Type: ${documentResponse.headers['content-type']}`);
+    } catch (error) {
+      console.log(`Error fetching document: ${error.message}`);
     }
     
     console.log("\nAll tests passed! The MTender API is working correctly.");

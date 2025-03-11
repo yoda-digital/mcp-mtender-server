@@ -6,7 +6,9 @@ import {
 } from "@modelcontextprotocol/sdk/types.js";
 import axios from "axios";
 import { axiosInstance, MTENDER_API_BASE_URL } from "../api/mtender-client.js";
-import { createLoggingHandler } from "./utils.js";
+import { createLoggingHandler, streamToBuffer } from "./utils.js";
+import mammoth from "mammoth";
+import pdfParse from "pdf-parse";
 
 /**
  * Setup tool handlers for the MCP server
@@ -123,6 +125,21 @@ export function setupToolHandlers(server: any) {
                 }
               },
               required: ["ocid"]
+            }
+          },
+          {
+            name: "fetch_tender_document",
+            description: "Fetch and extract text from tender documents for AI/LLM analysis",
+            inputSchema: {
+              type: "object",
+              properties: {
+                documentUrl: {
+                  type: "string",
+                  description: "MTender storage URL of the document",
+                  pattern: "^https://storage\\.mtender\\.gov\\.md/get/[\\w-]+-\\d+$"
+                }
+              },
+              required: ["documentUrl"]
             }
           }
         ]
@@ -604,7 +621,73 @@ export function setupToolHandlers(server: any) {
             };
           }
           
-          default:
+          case "fetch_tender_document": {
+            const documentUrl = String(request.params.arguments?.documentUrl);
+            
+            // Validate URL format
+            if (!documentUrl.startsWith("https://storage.mtender.gov.md/get/")) {
+              throw new McpError(ErrorCode.InvalidParams, "Invalid MTender storage URL");
+            }
+
+            try {
+              // Stream download to handle large files
+              const response = await axios({
+                method: 'get',
+                url: documentUrl,
+                responseType: 'stream'
+              });
+
+              // Get document info from headers
+              const contentType = response.headers['content-type'];
+              const disposition = response.headers['content-disposition'];
+              const filename = disposition?.split('filename*=utf-8\'\'')[1] ||
+                              disposition?.split('filename=')[1]?.replace(/"/g, '');
+
+              // Process based on content type
+              let textContent;
+              if (contentType === 'application/pdf') {
+                const pdfData = await streamToBuffer(response.data);
+                const pdf = await pdfParse(pdfData);
+                textContent = pdf.text;
+              } else if (contentType.includes('msword') ||
+                         contentType.includes('openxmlformats-officedocument')) {
+                const docData = await streamToBuffer(response.data);
+                const result = await mammoth.extractRawText({ buffer: docData });
+                textContent = result.value;
+              } else {
+                throw new McpError(
+                  ErrorCode.InvalidRequest,
+                  `Unsupported document type: ${contentType}`
+                );
+              }
+
+              // Clean and normalize text for AI/LLM consumption
+              const cleanedText = textContent
+                .replace(/\r\n/g, '\n')           // Normalize line endings
+                .replace(/\n{3,}/g, '\n\n')       // Remove excess whitespace
+                .trim();
+
+              return {
+                content: [{
+                  type: "text",
+                  text: cleanedText,
+                  metadata: {
+                    filename,
+                    contentType,
+                    source: documentUrl
+                  }
+                }]
+              };
+            } catch (error) {
+              if (axios.isAxiosError(error)) {
+                throw new McpError(
+                  ErrorCode.InternalError,
+                  `Failed to fetch document: ${error.message}`
+                );
+              }
+              throw error;
+            }
+          }
             throw new Error(`Unknown tool: ${request.params.name}`);
         }
       } catch (error) {

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * A test script for the MTender OCDS MCP Server
+ * A test script for the MTender MCP OCDS Server
  * This script tests the MCP server functionality directly
  */
 
@@ -10,7 +10,7 @@ import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 
 async function main() {
-  console.log("Starting MTender OCDS MCP Server test...");
+  console.log("Starting MTender MCP OCDS Server test...");
   
   // Create a transport that communicates with the server
   const transport = new StdioClientTransport({
@@ -22,7 +22,7 @@ async function main() {
   const client = new Client(
     {
       name: "MTender Test Client",
-      version: "0.1.0"
+      version: "0.2.0"
     },
     {
       capabilities: {
@@ -36,7 +36,7 @@ async function main() {
   try {
     // Connect to the server
     await client.connect(transport);
-    console.log("Connected to MTender OCDS Server");
+    console.log("Connected to MTender MCP OCDS Server");
     
     // Test 1: List resource templates
     console.log("\nTest 1: List resource templates");
@@ -70,8 +70,17 @@ async function main() {
     });
     console.log("Tender result received");
     
-    // Test 6: Try to read a resource with a shorter timeout
-    console.log("\nTest 6: Attempting to read latest tenders resource");
+    // Test 6: Call fetch_tender_document tool
+    console.log("\nTest 6: Call fetch_tender_document tool");
+    const documentResult = await client.callTool({
+      name: "fetch_tender_document",
+      arguments: { documentUrl: "https://storage.mtender.gov.md/get/8e03c261-6f62-4e0f-87ea-2882afdf7f54-1682585742785" }
+    });
+    console.log("Document result received");
+    console.log(documentResult.content[0].text);
+    
+    // Test 7: Try to read a resource with a shorter timeout
+    console.log("\nTest 7: Attempting to read latest tenders resource");
     try {
       // Set a shorter timeout for this test
       const timeoutPromise = new Promise((_, reject) =>
@@ -90,7 +99,7 @@ async function main() {
     
     console.log("\nTests completed successfully!");
     
-    console.log("\nMTender OCDS MCP Server is working correctly!");
+    console.log("\nMTender MCP OCDS Server is working correctly!");
     console.log("The server can be integrated with Claude Desktop or VSCode as described in the README.");
     
   } catch (error) {
