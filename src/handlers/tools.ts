@@ -8,7 +8,7 @@ import axios from "axios";
 import { axiosInstance, MTENDER_API_BASE_URL } from "../api/mtender-client.js";
 import { createLoggingHandler, streamToBuffer } from "./utils.js";
 import mammoth from "mammoth";
-import pdfParse from "pdf-parse";
+import pdfParse from "../utils/pdf-parse-wrapper.js";
 
 /**
  * Setup tool handlers for the MCP server
